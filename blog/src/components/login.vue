@@ -3,21 +3,19 @@
     <div class="login">
       <h1>login</h1>
 
-      <form action="/login" method="post">
-        <input name="userName" type="text" placeholder="请输入用户名"><br><br>
-        <input name="passWord" type="password" placeholder="请输入密码"><br><br>
-        <input type="submit" value="确定">
-      </form>
+      <input name="userName" type="text" placeholder="请输入用户名"><br><br>
+      <input name="passWord" type="password" placeholder="请输入密码"><br><br>
+      <input @click="submit" type="button" value="确定">
+
     </div>
 
     <div class="register">
       <h1>register</h1>
 
-      <form action="/register" method="post">
         <input name="userName" type="text" placeholder="请输入用户名"><br><br>
         <input name="passWord" type="password" placeholder="请输入密码"><br><br>
-        <input type="submit" value="注册">
-      </form>
+        <input @click="register" type="button" value="注册">
+
     </div>
 
   </div>
@@ -28,6 +26,19 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
+    }
+  },
+  methods: {
+    submit(){
+      console.log(PATH+"/test")
+      this.$http.get(PATH+"/test").then( res => {
+        console.log(res);
+      }, err => {
+        throw err
+      })
+    },
+    register(){
+
     }
   }
 }
