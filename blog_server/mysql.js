@@ -20,6 +20,7 @@ exports.query = (sql, params = []) => {
                 return reject(err);
             }
             connection.query(sql, params, (err, result) => {
+                //释放连接
                 connection.release();
                 if (err) {
                     return reject(err);
