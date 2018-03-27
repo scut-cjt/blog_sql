@@ -2,9 +2,8 @@
   <div class="hello">
     <div class="login">
       <h1>login</h1>
-
-      <input name="userName" type="text" placeholder="请输入用户名"><br><br>
-      <input name="passWord" type="password" placeholder="请输入密码"><br><br>
+      <input v-model="login.userName" name="userName" type="text" placeholder="请输入用户名"><br><br>
+      <input v-model="login.passWord" name="passWord" type="password" placeholder="请输入密码"><br><br>
       <input @click="submit" type="button" value="确定">
 
     </div>
@@ -22,16 +21,26 @@
 </template>
 
 <script>
+  import qs from 'qs';
+
 export default {
   name: 'HelloWorld',
   data () {
     return {
+      login:{
+        userName:'',
+        passWord:''
+      }
     }
   },
   methods: {
     submit(){
-      console.log(PATH+"/test")
-      this.$http.get(PATH+"/test").then( res => {
+
+      this.$http.post(PATH+"/login",qs.stringify({
+        'userName':this.login.userName,
+        'passWord':this.login.passWord
+      }))
+      .then( res => {
         console.log(res);
       }, err => {
         throw err
