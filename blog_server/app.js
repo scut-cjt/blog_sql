@@ -24,7 +24,7 @@ app.all('*', function(req, res, next) {
 
 app.get('/test', function (req, res) {
     console.log("主页 GET 请求");
-    res.send('Hello');
+    res.send('Hello2');
 })
 
 
