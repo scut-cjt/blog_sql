@@ -10,10 +10,9 @@
 
     <div class="register">
       <h1>register</h1>
-
-        <input name="userName" type="text" placeholder="请输入用户名"><br><br>
-        <input name="passWord" type="password" placeholder="请输入密码"><br><br>
-        <input @click="register" type="button" value="注册">
+      <input v-model="register.userName" name="userName" type="text" placeholder="请输入用户名"><br><br>
+      <input v-model="register.passWord" name="passWord" type="password" placeholder="请输入密码"><br><br>
+      <input @click="handleRegister" type="button" value="确定">
 
     </div>
 
@@ -30,7 +29,11 @@ export default {
       login:{
         userName:'',
         passWord:''
-      }
+      },
+      register:{
+        userName:'',
+        passWord:''
+      },
     }
   },
   methods: {
@@ -46,8 +49,16 @@ export default {
         throw err
       })
     },
-    register(){
-
+    handleRegister(){
+      this.$http.post(PATH+"/register",qs.stringify({
+        'userName':this.register.userName,
+        'passWord':this.register.passWord
+      }))
+        .then( res => {
+          console.log(res);
+        }, err => {
+          throw err
+        })
     }
   }
 }

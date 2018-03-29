@@ -2,6 +2,8 @@ const express = require('express');
 const app = express();
 const fs = require("fs");
 const bodyParser = require('body-parser');
+
+//api
 const api_user = require('./api/user.js')
 
 // 创建 application/x-www-form-urlencoded 编码解析
@@ -27,6 +29,7 @@ app.all('*', function(req, res, next) {
  * jtchen 2018/3/27
  */
 app.post('/login', urlencodedParser, api_user.login)
+app.post('/register', urlencodedParser, api_user.register)
 
 
 
