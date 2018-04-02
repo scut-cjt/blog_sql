@@ -1,7 +1,8 @@
-const express = require('express');
-const app = express();
+const app = require('./app.js');
 const fs = require("fs");
 const bodyParser = require('body-parser');
+
+const checkToken = require('./api/token.js');
 
 //api
 const api_user = require('./api/user.js')
@@ -31,7 +32,15 @@ app.all('*', function(req, res, next) {
 app.post('/login', urlencodedParser, api_user.login)
 app.post('/register', urlencodedParser, api_user.register)
 
-
+app.get('/test', checkToken, (req, res) => {
+    res.json({
+        name: 'cjt',
+        age: 12
+    })
+});
+app.get('/get', function (req,res) {
+    res.json('hello')
+});
 
 /**
  * 启动server服务器

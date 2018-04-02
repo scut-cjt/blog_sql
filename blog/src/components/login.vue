@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <div class="login">
-      <h1>login</h1>
+      <h3>login</h3>
       <input v-model="login.userName" name="userName" type="text" placeholder="请输入用户名"><br><br>
       <input v-model="login.passWord" name="passWord" type="password" placeholder="请输入密码"><br><br>
       <input @click="submit" type="button" value="确定">
@@ -9,7 +9,7 @@
     </div>
 
     <div class="register">
-      <h1>register</h1>
+      <h3>register</h3>
       <input v-model="register.userName" name="userName" type="text" placeholder="请输入用户名"><br><br>
       <input v-model="register.passWord" name="passWord" type="password" placeholder="请输入密码"><br><br>
       <input @click="handleRegister" type="button" value="确定">
@@ -44,7 +44,11 @@ export default {
         'passWord':this.login.passWord
       }))
       .then( res => {
-        console.log(res);
+        let result = res.data
+        console.log(result);
+        if(result.state){
+          window.localStorage.setItem('access_token',result.token);
+        }
       }, err => {
         throw err
       })
