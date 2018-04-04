@@ -31,15 +31,19 @@ app.all('*', function(req, res, next) {
  */
 app.post('/login', urlencodedParser, api_user.login)
 app.post('/register', urlencodedParser, api_user.register)
-
-app.get('/test', checkToken, (req, res) => {
+app.all('/checkLogin',urlencodedParser, checkToken, (req, res) => {
+    res.json({
+        state: true,
+        info: '登录成功',
+        userId: req.userId
+    })
+})
+/*app.use('/test',checkToken)*/
+app.all('/test',checkToken, (req, res) => {
     res.json({
         name: 'cjt',
         age: 12
     })
-});
-app.get('/get', function (req,res) {
-    res.json('hello')
 });
 
 /**

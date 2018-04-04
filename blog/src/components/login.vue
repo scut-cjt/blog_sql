@@ -47,7 +47,7 @@ export default {
         let result = res.data
         console.log(result);
         if(result.state){
-          window.localStorage.setItem('access_token',result.token);
+          window.localStorage.setItem('access_token',result.access_token);
         }
       }, err => {
         throw err
