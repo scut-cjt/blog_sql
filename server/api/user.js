@@ -32,6 +32,10 @@ exports.login = function(req, res) {
 
                 return res.json({
                     userId: rows[0].u_id,
+                    userName: rows[0].u_name,
+                    email: rows[0].u_email,
+                    address: rows[0].u_address,
+                    tel: rows[0].u_tel,
                     access_token: token,
                     state: true,
                     info: "登录成功",
@@ -43,6 +47,7 @@ exports.login = function(req, res) {
         })
 }
 
+//非必须
 function saveToken(u_id, token) {
 
     db.query(`SELECT * FROM token`)
@@ -96,4 +101,5 @@ exports.register = function(req, res) {
             throw err
         })
 }
+
 

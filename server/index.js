@@ -6,6 +6,7 @@ const checkToken = require('./api/token.js');
 
 //api
 const api_user = require('./api/user.js')
+const api_article = require('./api/article.js')
 
 // 创建 application/x-www-form-urlencoded 编码解析
 const urlencodedParser = bodyParser.urlencoded({extended: false})
@@ -21,6 +22,7 @@ app.all('*', function(req, res, next) {
     res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.header('Access-Control-Allow-Headers', 'Content-Type');
+    res.header('Access-Control-Allow-Headers', 'x-access-token');
     next();
 });
 
@@ -38,13 +40,15 @@ app.all('/checkLogin',urlencodedParser, checkToken, (req, res) => {
         userId: req.userId
     })
 })
-/*app.use('/test',checkToken)*/
-app.all('/test',checkToken, (req, res) => {
-    res.json({
-        name: 'cjt',
-        age: 12
-    })
-});
+
+
+/**
+ * 文章功能
+ * jtchen 2018/4/8
+ */
+app.all('/newArticle', urlencodedParser, checkToken, api_article.newArticle)
+
+
 
 /**
  * 启动server服务器

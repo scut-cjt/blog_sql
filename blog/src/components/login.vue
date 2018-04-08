@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <div class="login">
-      <h3>login</h3>
+      <p>login</p>
       <input v-model="login.userName" name="userName" type="text" placeholder="请输入用户名"><br><br>
       <input v-model="login.passWord" name="passWord" type="password" placeholder="请输入密码"><br><br>
       <input @click="submit" type="button" value="确定">
@@ -9,7 +9,7 @@
     </div>
 
     <div class="register">
-      <h3>register</h3>
+      <p>register</p>
       <input v-model="register.userName" name="userName" type="text" placeholder="请输入用户名"><br><br>
       <input v-model="register.passWord" name="passWord" type="password" placeholder="请输入密码"><br><br>
       <input @click="handleRegister" type="button" value="确定">
@@ -38,7 +38,6 @@ export default {
   },
   methods: {
     submit(){
-
       this.$http.post(PATH+"/login",qs.stringify({
         'userName':this.login.userName,
         'passWord':this.login.passWord
@@ -48,6 +47,16 @@ export default {
         console.log(result);
         if(result.state){
           window.localStorage.setItem('access_token',result.access_token);
+
+          window.localStorage.setItem('userInfo',JSON.stringify(result));
+          //存入vuex
+          /*this.$store.state.user.name = result.userName;
+          this.$store.state.user.email = result.email;
+          this.$store.state.user.address = result.address;
+          this.$store.state.user.tel = result.tel;*/
+
+
+          this.$router.push('/home')
         }
       }, err => {
         throw err

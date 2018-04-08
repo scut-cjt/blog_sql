@@ -20,9 +20,9 @@ const router = new Router({
       component: resolve => require(['@/components/home'],resolve)
     },
     {
-      path: '/page2',
-      name: 'page2',
-      component: resolve => require(['@/components/page2'],resolve)
+      path: '/newArticle',//写文章
+      name: 'newArticle',
+      component: resolve => require(['@/components/newArticle'],resolve)
     }
   ]
 })
@@ -32,29 +32,35 @@ const router = new Router({
  * jtchen 2018/4/3
  */
 function checkLogin(token){
-  axios.post(PATH+"/checkLogin",qs.stringify({
-    'access_token': token
-  }))
-    .then( res => {
-      if(res.data.state){
-        return true
-      }
-    }, err => {
-      throw err
-    })
+  return new Promise((resolve, reject) => {
+    axios.post(PATH+"/checkLogin",qs.stringify({
+      'access_token': token
+    }))
+      .then( res => {
+        if(res.data.state){
+          resolve(true)
+        }
+      }, err => {
+        throw err
+      })
+  })
+
 }
 
 
 router.beforeEach((to, from, next) => {
-  if(noLoginPages.findIndex(name => name == to.name) != -1){
+  if(noLoginPages.indexOf(to.name) != -1){
     return next();
   }
-  console.log('is:'+checkLogin)
+
   if(window.localStorage.getItem('access_token') ){
     //存在token并合法
-    checkLogin(window.localStorage.getItem('access_token')).then(res => {
-      next()
-    })
+    checkLogin(window.localStorage.getItem('access_token'))
+      .then(res => {
+        if(res){
+          next()
+        }
+      })
   }else if(!window.localStorage.getItem('access_token')){
     next({
       path: '/login',
