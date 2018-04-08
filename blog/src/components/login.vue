@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <div class="login">
-      <p>login</p>
+      <h3>login</h3>
       <input v-model="login.userName" name="userName" type="text" placeholder="请输入用户名"><br><br>
       <input v-model="login.passWord" name="passWord" type="password" placeholder="请输入密码"><br><br>
       <input @click="submit" type="button" value="确定">
@@ -9,7 +9,7 @@
     </div>
 
     <div class="register">
-      <p>register</p>
+      <h3>register</h3>
       <input v-model="register.userName" name="userName" type="text" placeholder="请输入用户名"><br><br>
       <input v-model="register.passWord" name="passWord" type="password" placeholder="请输入密码"><br><br>
       <input @click="handleRegister" type="button" value="确定">
@@ -23,7 +23,7 @@
   import qs from 'qs';
 
 export default {
-  name: 'HelloWorld',
+  name: 'login',
   data () {
     return {
       login:{
@@ -50,11 +50,7 @@ export default {
 
           window.localStorage.setItem('userInfo',JSON.stringify(result));
           //存入vuex
-          /*this.$store.state.user.name = result.userName;
-          this.$store.state.user.email = result.email;
-          this.$store.state.user.address = result.address;
-          this.$store.state.user.tel = result.tel;*/
-
+          this.$store.state.user = {...result}
 
           this.$router.push('/home')
         }

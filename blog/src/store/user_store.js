@@ -1,8 +1,10 @@
 export default {
   state: {
-    name: '',
+    access_token: '',
+    address: '',
     email: '',
     tel: '',
-    address: ''
+    userId: '',
+    userName: '',
   }
 }
