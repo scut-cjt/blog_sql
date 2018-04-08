@@ -9,7 +9,7 @@ import './host.js'
 
 Vue.prototype.$http = axios
 //全局添加请求头token
-axios.defaults.headers.common['x-access-token'] = window.localStorage.getItem('access_token') ? window.localStorage.getItem('access_token') : '';
+axios.defaults.headers.common['x-access-token'] = window.localStorage.getItem('access_token') || '';
 
 Vue.config.productionTip = false
 

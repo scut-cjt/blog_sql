@@ -11,6 +11,22 @@
     </div>
 
     <input type="button" value="写文章" @click="go2NewArticle">
+    <hr>
+    <h3>发现</h3>
+    <ul>
+      <li v-for="item in list">
+        <div class="item">
+          <div>
+            <p class="title">{{item.a_title}}</p>
+            <span class="date">{{item.a_date}}</span>
+          </div>
+          <div>
+            <p class="author">{{item.u_name}}</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+
   </div>
 </template>
 
@@ -21,10 +37,12 @@ export default {
   name: 'home',
   mounted () {
     getUserInfo(this)
+    getArticleList(this)
   },
   data () {
     return {
-      userInfo: null,
+      userInfo: {},
+      list: []
     }
   },
   methods: {
@@ -38,13 +56,47 @@ export default {
 function getUserInfo(vm) {
   vm.userInfo = JSON.parse( window.localStorage.getItem('userInfo') );
 }
+
+function getArticleList(vm) {
+  vm.$http.post(PATH+ '/getArticleList')
+    .then(res => {
+        vm.list = res.data.list
+    })
+}
+
 </script>
 
 <style scoped>
-  ul{
+  hr{
+    margin: 20px 0;
+  }
+  .user-info ul{
     padding-left: 20px;
   }
   li{
     list-style: none
+  }
+
+  .title{
+    font-size: 16px;
+  }
+  .date{
+    float: right;
+    color:#999;
+    font-size:12px;
+  }
+  .author{
+    font-size:14px;
+  }
+
+  ul{
+    padding: 0;
+  }
+  .item p{
+    margin: 5px 0;
+  }
+  .item{
+    padding: 5px 0 ;
+    border-bottom: 1px solid #ddd;
   }
 </style>
