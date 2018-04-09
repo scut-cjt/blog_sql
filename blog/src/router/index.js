@@ -23,6 +23,11 @@ const router = new Router({
       path: '/newArticle',//写文章
       name: 'newArticle',
       component: resolve => require(['@/components/newArticle'],resolve)
+    },
+    {
+      path: '/article',//查看文章
+      name: 'article',
+      component: resolve => require(['@/components/article'],resolve)
     }
   ]
 })

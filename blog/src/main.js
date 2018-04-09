@@ -7,9 +7,8 @@ import router from './router'
 import axios from 'axios'
 import './host.js'
 
-Vue.prototype.$http = axios
-//全局添加请求头token
-axios.defaults.headers.common['x-access-token'] = window.localStorage.getItem('access_token') || '';
+import customAjax from './util/my_axios'
+Vue.prototype.$http = customAjax
 
 Vue.config.productionTip = false
 

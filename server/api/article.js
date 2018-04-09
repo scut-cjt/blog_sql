@@ -11,13 +11,13 @@ exports.newArticle = function(req, res) {
     let userName = req.body.userName;
     let userId = req.body.userId;
     let date = moment().format("YYYY-MM-DD HH:MM:SS");
-    console.log(title,content,date)
 
     let insert_sql = "INSERT INTO article(a_title, a_content, a_date, u_name, u_id) VALUES (?,?,?,?,?)";
     let insert_params = [title,content,date,userName,userId];
     db.query(insert_sql,insert_params)
         .then(res => {
             //拿到insertId去查(文章id)
+            console.log('id',res.insertId)
             return Promise.resolve(res.insertId)
         })
         .then(insertId => {
@@ -41,11 +41,14 @@ exports.newArticle = function(req, res) {
                     return res.json(response);
                 })
         })
+        .catch(err => {
+            throw err
+        })
 
 }
 
 /**
- * 发布文章
+ * 获取文章列表
  * jtchen 2018/4/8
  */
 exports.getArticleList = function(req, res) {

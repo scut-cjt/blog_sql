@@ -50,7 +50,7 @@ export default {
 
           window.localStorage.setItem('userInfo',JSON.stringify(result));
           //存入vuex
-          this.$store.state.user = {...result}
+          //this.$store.state.user = {...result}
 
           this.$router.push('/home')
         }

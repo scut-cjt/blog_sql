@@ -31,13 +31,13 @@
 </template>
 
 <script>
-import qs from 'qs';
+import ls from '../util/ls';
 
 export default {
   name: 'home',
   mounted () {
-    getUserInfo(this)
-    getArticleList(this)
+    getUserInfo.call(this)
+    getArticleList.call(this)
   },
   data () {
     return {
@@ -53,14 +53,14 @@ export default {
   }
 }
 
-function getUserInfo(vm) {
-  vm.userInfo = JSON.parse( window.localStorage.getItem('userInfo') );
+function getUserInfo() {
+  this.userInfo = ls.get('userInfo');
 }
 
-function getArticleList(vm) {
-  vm.$http.post(PATH+ '/getArticleList')
+function getArticleList() {
+  this.$http.post(PATH+ '/getArticleList')
     .then(res => {
-        vm.list = res.data.list
+        this.list = res.data.list
     })
 }
 
