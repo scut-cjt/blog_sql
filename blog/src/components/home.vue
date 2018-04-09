@@ -14,7 +14,7 @@
     <hr>
     <h3>发现</h3>
     <ul>
-      <li v-for="item in list">
+      <li v-for="item in list" @click="checkArticle(item.a_id)">
         <div class="item">
           <div>
             <p class="title">{{item.a_title}}</p>
@@ -31,13 +31,13 @@
 </template>
 
 <script>
-import qs from 'qs';
+import ls from '../util/ls';
 
 export default {
   name: 'home',
   mounted () {
-    getUserInfo(this)
-    getArticleList(this)
+    getUserInfo.call(this)
+    getArticleList.call(this)
   },
   data () {
     return {
@@ -49,18 +49,22 @@ export default {
     go2NewArticle(){
       console.log('正在跳转至写文章')
       this.$router.push('/newArticle')
+    },
+    //查看文章详情
+    checkArticle(articleId){
+      this.$router.push(`/article?a_id=${articleId}`)
     }
   }
 }
 
-function getUserInfo(vm) {
-  vm.userInfo = JSON.parse( window.localStorage.getItem('userInfo') );
+function getUserInfo() {
+  this.userInfo = ls.get('userInfo');
 }
 
-function getArticleList(vm) {
-  vm.$http.post(PATH+ '/getArticleList')
+function getArticleList() {
+  this.$http.post('/getArticleList')
     .then(res => {
-        vm.list = res.data.list
+        this.list = res.list
     })
 }
 

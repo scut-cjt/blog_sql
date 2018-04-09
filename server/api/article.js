@@ -11,13 +11,13 @@ exports.newArticle = function(req, res) {
     let userName = req.body.userName;
     let userId = req.body.userId;
     let date = moment().format("YYYY-MM-DD HH:MM:SS");
-    console.log(title,content,date)
 
     let insert_sql = "INSERT INTO article(a_title, a_content, a_date, u_name, u_id) VALUES (?,?,?,?,?)";
     let insert_params = [title,content,date,userName,userId];
     db.query(insert_sql,insert_params)
         .then(res => {
             //拿到insertId去查(文章id)
+            console.log('id',res.insertId)
             return Promise.resolve(res.insertId)
         })
         .then(insertId => {
@@ -41,11 +41,14 @@ exports.newArticle = function(req, res) {
                     return res.json(response);
                 })
         })
+        .catch(err => {
+            throw err
+        })
 
 }
 
 /**
- * 发布文章
+ * 获取文章列表
  * jtchen 2018/4/8
  */
 exports.getArticleList = function(req, res) {
@@ -65,6 +68,37 @@ exports.getArticleList = function(req, res) {
                 state: true,
                 info:'查询成功',
                 list: rows,
+            }
+
+            return res.json(response)
+        })
+
+}
+
+/**
+ * 查看文章详情
+ * jtchen 2018/4/9
+ */
+exports.checkArticle = function(req, res) {
+    let articleId = req.body.articleId ;
+    let query_sql;
+
+    if(articleId != ''){
+        query_sql = `SELECT * FROM article WHERE a_id = '${articleId}'`;
+    }else{
+        return res.json({
+            errcode:'400',
+            info:'请传入文章id'
+        })
+    }
+
+    db.query(query_sql)
+        .then(rows => {
+            console.log(rows);
+            let response = {
+                state: true,
+                info:'查询成功',
+                detail: rows[0],
             }
 
             return res.json(response)

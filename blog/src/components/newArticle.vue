@@ -9,12 +9,19 @@
 </template>
 
 <script>
-  import qs from 'qs';
+  import { mapGetters } from 'vuex'
 
 export default {
   name: 'newArticle',
-  mounted(){
-    console.log('vuex',this.$store.state.user)
+  computed: {
+    ...mapGetters([
+      'access_token',
+      'address',
+      'email',
+      'tel',
+      'userId',
+      'userName'
+    ])
   },
   data () {
     return {
@@ -24,15 +31,15 @@ export default {
   },
   methods: {
     submit() {
-      this.$http.post(PATH + '/newArticle',qs.stringify({
+      this.$http.post('/newArticle',{
         'title':this.title,
         'content':this.content,
-        "userId": this.$store.state.user.userId,
-        "userName": this.$store.state.user.userName
-      }))
+        "userId": this.userId,
+        "userName": this.userName
+      })
         .then( res => {
-            if(res.data.state){
-              alert(res.data.text)
+            if(res.state){
+              alert(res.text)
             }
         })
     }

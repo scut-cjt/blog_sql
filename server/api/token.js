@@ -25,7 +25,10 @@ module.exports = function(req, res, next) {
 
         } catch (err) {
             console.log(3)
-            return res.json(err)
+            return res.json({
+                state: false,
+                info: 'token错误,请检查请求头'
+            })
         }
     } else {
         console.log(4)

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import axios from "axios"
-import qs from 'qs'
+import customAjax from "../util/customAjax"
+import ls from '../util/ls'
 import noLoginPages from "./freeLogin.js"
 
 Vue.use(Router)
@@ -23,6 +23,11 @@ const router = new Router({
       path: '/newArticle',//写文章
       name: 'newArticle',
       component: resolve => require(['@/components/newArticle'],resolve)
+    },
+    {
+      path: '/article',//查看文章
+      name: 'article',
+      component: resolve => require(['@/components/article'],resolve)
     }
   ]
 })
@@ -31,13 +36,11 @@ const router = new Router({
  * vue-router 权限拦截中间件
  * jtchen 2018/4/3
  */
-function checkLogin(token){
+function checkLogin(){
   return new Promise((resolve, reject) => {
-    axios.post(PATH+"/checkLogin",qs.stringify({
-      'access_token': token
-    }))
+    customAjax.post("/checkLogin")
       .then( res => {
-        if(res.data.state){
+        if(res.state){
           resolve(true)
         }
       }, err => {
@@ -53,15 +56,15 @@ router.beforeEach((to, from, next) => {
     return next();
   }
 
-  if(window.localStorage.getItem('access_token') ){
+  if(ls.get('access_token')){
     //存在token并合法
-    checkLogin(window.localStorage.getItem('access_token'))
+    checkLogin()
       .then(res => {
         if(res){
           next()
         }
       })
-  }else if(!window.localStorage.getItem('access_token')){
+  }else if(!ls.get('access_token')){
     next({
       path: '/login',
       redirect: to.path

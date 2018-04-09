@@ -48,6 +48,7 @@ app.all('/checkLogin',urlencodedParser, checkToken, (req, res) => {
  */
 app.all('/newArticle', urlencodedParser, checkToken, api_article.newArticle)
 app.all('/getArticleList', urlencodedParser, checkToken, api_article.getArticleList)
+app.all('/checkArticle', urlencodedParser, checkToken, api_article.checkArticle)
 
 
 
