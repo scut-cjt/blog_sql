@@ -4,18 +4,19 @@
  */
 
 import axios from 'axios'
+import ls from './ls'
 import qs from 'qs'
 
 const instance = axios.create({
-  headers: {'x-access-token': window.localStorage.getItem('access_token') || ''}
+  headers: {'x-access-token': ls.get('access_token') || ''}
 });
 
 export default {
-  get : (url, params = {}) => {
+  get : (url, params) => {
     return new Promise((resolve, reject) => {
-      instance.get(url, qs.stringify(params))
+      instance.get(PATH + url, qs.stringify(params))
         .then( res => {
-          resolve(res)
+          resolve(res.data)
         })
         .catch( err => {
           reject(err)
@@ -23,11 +24,11 @@ export default {
     })
   },
 
-  post : (url, params = {}) => {
+  post : (url, params) => {
     return new Promise((resolve, reject) => {
-      instance.post(url, qs.stringify(params))
+      instance.post(PATH + url, qs.stringify(params))
         .then( res => {
-          resolve(res)
+          resolve(res.data)
         })
         .catch( err => {
           reject(err)

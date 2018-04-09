@@ -4,10 +4,9 @@ import Vue from 'vue'
 import store  from './store'
 import App from './App'
 import router from './router'
-import axios from 'axios'
 import './host.js'
 
-import customAjax from './util/my_axios'
+import customAjax from './util/customAjax'
 Vue.prototype.$http = customAjax
 
 Vue.config.productionTip = false

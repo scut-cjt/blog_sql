@@ -18,7 +18,7 @@ export default {
   },
   set: (key, value) => {
     //存储
-    storage.setItem(key, value);
+    storage.setItem(key, JSON.stringify(value));
     return true
   },
   has: (key) => {

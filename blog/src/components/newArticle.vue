@@ -31,15 +31,15 @@ export default {
   },
   methods: {
     submit() {
-      this.$http.post(PATH + '/newArticle',{
+      this.$http.post('/newArticle',{
         'title':this.title,
         'content':this.content,
         "userId": this.userId,
         "userName": this.userName
       })
         .then( res => {
-            if(res.data.state){
-              alert(res.data.text)
+            if(res.state){
+              alert(res.text)
             }
         })
     }

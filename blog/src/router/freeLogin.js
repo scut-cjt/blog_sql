@@ -3,4 +3,4 @@
  * Created by jtchen jtchen on 2018/4/3
  */
 
-export default ['login']
+export default ['login','checkLogin']

@@ -14,7 +14,7 @@
     <hr>
     <h3>发现</h3>
     <ul>
-      <li v-for="item in list">
+      <li v-for="item in list" @click="checkArticle(item.a_id)">
         <div class="item">
           <div>
             <p class="title">{{item.a_title}}</p>
@@ -49,6 +49,10 @@ export default {
     go2NewArticle(){
       console.log('正在跳转至写文章')
       this.$router.push('/newArticle')
+    },
+    //查看文章详情
+    checkArticle(articleId){
+      this.$router.push(`/article?a_id=${articleId}`)
     }
   }
 }
@@ -58,9 +62,9 @@ function getUserInfo() {
 }
 
 function getArticleList() {
-  this.$http.post(PATH+ '/getArticleList')
+  this.$http.post('/getArticleList')
     .then(res => {
-        this.list = res.data.list
+        this.list = res.list
     })
 }
 

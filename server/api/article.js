@@ -74,3 +74,34 @@ exports.getArticleList = function(req, res) {
         })
 
 }
+
+/**
+ * 查看文章详情
+ * jtchen 2018/4/9
+ */
+exports.checkArticle = function(req, res) {
+    let articleId = req.body.articleId ;
+    let query_sql;
+
+    if(articleId != ''){
+        query_sql = `SELECT * FROM article WHERE a_id = '${articleId}'`;
+    }else{
+        return res.json({
+            errcode:'400',
+            info:'请传入文章id'
+        })
+    }
+
+    db.query(query_sql)
+        .then(rows => {
+            console.log(rows);
+            let response = {
+                state: true,
+                info:'查询成功',
+                detail: rows[0],
+            }
+
+            return res.json(response)
+        })
+
+}

@@ -20,7 +20,7 @@
 </template>
 
 <script>
-  import qs from 'qs';
+import ls from '../util/ls';
 
 export default {
   name: 'login',
@@ -38,19 +38,16 @@ export default {
   },
   methods: {
     submit(){
-      this.$http.post(PATH+"/login",qs.stringify({
+      this.$http.post("/login", {
         'userName':this.login.userName,
         'passWord':this.login.passWord
-      }))
+      })
       .then( res => {
-        let result = res.data
+        let result = res
         console.log(result);
         if(result.state){
-          window.localStorage.setItem('access_token',result.access_token);
-
-          window.localStorage.setItem('userInfo',JSON.stringify(result));
-          //存入vuex
-          //this.$store.state.user = {...result}
+          ls.set('access_token',result.access_token);
+          ls.set('userInfo',result);
 
           this.$router.push('/home')
         }
@@ -59,10 +56,10 @@ export default {
       })
     },
     handleRegister(){
-      this.$http.post(PATH+"/register",qs.stringify({
+      this.$http.post("/register",{
         'userName':this.register.userName,
         'passWord':this.register.passWord
-      }))
+      })
         .then( res => {
           console.log(res);
         }, err => {
