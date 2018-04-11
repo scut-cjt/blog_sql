@@ -1,4 +1,4 @@
-const db = require('../mysql');
+const db = require('../sql/mysql');
 const app = require('../app.js');
 const jwt = require('jwt-simple');
 const moment = require('moment')
@@ -22,11 +22,13 @@ exports.login = function(req, res) {
                     info: "登录失败,请检查用户名和密码",
                 })
             }else{
-                let expires = moment().add(1,'days').valueOf();
+                let expires = moment().add('days',7).valueOf();
                 let token = jwt.encode({
                     iss: rows[0].u_id,
                     exp: expires
                 }, app.get('jwtTokenSecret'));
+
+                console.log('颁发的token:'+ token)
 
                 //saveToken(rows[0].u_id,token)
 
