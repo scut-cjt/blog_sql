@@ -1,4 +1,4 @@
-const db = require('../mysql');
+const db = require('../sql/mysql.class');
 const app = require('../app.js');
 const jwt = require('jwt-simple');
 const moment = require('moment')
@@ -12,8 +12,7 @@ exports.login = function(req, res) {
     let passWord = req.body.passWord;
     console.log(userName,passWord)
 
-    let sql_login = `SELECT * FROM users WHERE u_name = '${userName}' and u_password = '${passWord}' `;
-    db.query(sql_login)
+    db.find('users','*',`u_name = '${userName}' and u_password = '${passWord}'`)
         .then(rows => {
             console.log('查询结果:',rows);
             if(rows.length == 0 || !rows){
@@ -22,11 +21,13 @@ exports.login = function(req, res) {
                     info: "登录失败,请检查用户名和密码",
                 })
             }else{
-                let expires = moment().add(1,'days').valueOf();
+                let expires = moment().add('days',7).valueOf();
                 let token = jwt.encode({
                     iss: rows[0].u_id,
                     exp: expires
                 }, app.get('jwtTokenSecret'));
+
+                console.log('颁发的token:'+ token)
 
                 //saveToken(rows[0].u_id,token)
 
@@ -47,25 +48,6 @@ exports.login = function(req, res) {
         })
 }
 
-//非必须
-function saveToken(u_id, token) {
-
-    db.query(`SELECT * FROM token`)
-        .then(rows => {
-            if(rows.length === 1){
-                db.query(`UPDATE token SET access_token='${token}', u_id=${u_id} WHERE t_id=1`)
-                    .then(rows => {
-                        console.log('更新token成功')
-                    })
-            }else{
-                let sql_saveToken = `INSERT INTO token(u_id,access_token) VALUES (?,?) `;
-                db.query(sql_saveToken,[u_id, token])
-                    .then(rows => {
-                        console.log('插入token成功')
-                    })
-            }
-        })
-}
 
 /**
  * 注册
@@ -76,8 +58,7 @@ exports.register = function(req, res) {
     let passWord = req.body.passWord;
     console.log(userName,passWord)
 
-    let sql_register = `SELECT * FROM users WHERE u_name = '${userName}'`;
-    db.query(sql_register)
+    db.find('users', '*', `u_name = '${userName}'`)
         .then(rows => {
             console.log('查询结果:',rows);
             if(rows.length == 0 || !rows){

@@ -4,7 +4,7 @@ const jwt = require('jwt-simple');
 module.exports = function(req, res, next) {
 
     let token = (req.body && req.body.access_token) || (req.query && req.query.access_token) || req.headers['x-access-token'];
-    console.log(token)
+    console.log('收到校验的token:'+token)
 
     if (token) {
         try {
@@ -12,6 +12,7 @@ module.exports = function(req, res, next) {
             console.log(decoded)
             if (decoded.exp <= Date.now()) {
                 //如果token过期了，我们就拒绝它
+                console.log('过期token:'+decoded.exp,Date.now())
                 return res.json({
                     state: false,
                     errcode: '400',

@@ -7,8 +7,6 @@
 </template>
 
 <script>
-import qs from 'qs'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'articleDetail',

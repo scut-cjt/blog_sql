@@ -1,4 +1,4 @@
-const db = require('../mysql');
+const db = require('../sql/mysql.class');
 const moment = require("moment")
 
 /**
@@ -12,17 +12,18 @@ exports.newArticle = function(req, res) {
     let userId = req.body.userId;
     let date = moment().format("YYYY-MM-DD HH:MM:SS");
 
-    let insert_sql = "INSERT INTO article(a_title, a_content, a_date, u_name, u_id) VALUES (?,?,?,?,?)";
-    let insert_params = [title,content,date,userName,userId];
-    db.query(insert_sql,insert_params)
+    db.insert('article',{
+        'a_title': title,
+        'a_content': content,
+        'a_date': date,
+        'u_name': userName,
+        'u_id': userId
+    })
         .then(res => {
-            //拿到insertId去查(文章id)
-            console.log('id',res.insertId)
             return Promise.resolve(res.insertId)
         })
         .then(insertId => {
-            let query_sql = `SELECT * FROM article WHERE a_id = '${insertId}'`;
-            db.query(query_sql)
+            db.find('article', '*', `a_id = '${insertId}'`)
                 .then(rows => {
                     console.log('文章查询:',rows)
                     let response = {
@@ -53,15 +54,13 @@ exports.newArticle = function(req, res) {
  */
 exports.getArticleList = function(req, res) {
     let userId = req.body.userId || '' ;
-    let query_sql;
+    let where = 1;
 
     if(userId != ''){
-        query_sql = `SELECT * FROM article WHERE a_id = '${insertId}'`;
-    }else{
-        query_sql = `SELECT * FROM article`;
+       where = `a_id = '${insertId}'`;
     }
 
-    db.query(query_sql)
+    db.find('article','*',where)
         .then(rows => {
             console.log(rows);
             let response = {
@@ -81,18 +80,15 @@ exports.getArticleList = function(req, res) {
  */
 exports.checkArticle = function(req, res) {
     let articleId = req.body.articleId ;
-    let query_sql;
 
-    if(articleId != ''){
-        query_sql = `SELECT * FROM article WHERE a_id = '${articleId}'`;
-    }else{
+    if(articleId == ''){
         return res.json({
             errcode:'400',
             info:'请传入文章id'
         })
     }
 
-    db.query(query_sql)
+    db.find('article', '*', 'a_id =' + articleId)
         .then(rows => {
             console.log(rows);
             let response = {
