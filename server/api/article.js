@@ -60,7 +60,7 @@ exports.getArticleList = function(req, res) {
        where = `a_id = '${insertId}'`;
     }
 
-    db.joinGroup(['article','comments'], '*', 'comments.a_id', 'article.a_id = comments.a_id', 'article.a_id', 'article.a_id')
+    db.unitQuery(['article','users'], '*', 'article.u_id = users.u_id', 'article.a_id')
     //db.find('article','*',where)
         .then(rows => {
             //console.log(rows);

@@ -40,12 +40,12 @@ class MDB {
         //console.log('查询'+this.sql);
         return this.excute()
     }
-    joinGroup([table1,table2], select='*', count, on='1', groupBy, orderBy){
-        this.sql = `SELECT ${select}, count(${count}) as count
+    unitQuery([table1,table2], select='*', where='1', orderBy){
+
+        this.sql = `SELECT ${select}
                     FROM ${table1}
                     LEFT JOIN ${table2}
-                    ON ${on}    
-                    GROUP BY ${groupBy}
+                    ON ${where}    
                     ORDER BY ${orderBy}`;
 
         console.log(this.sql)
