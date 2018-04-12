@@ -28,15 +28,27 @@ class MDB {
                     if (err) {
                         reject(err)
                     }
+                    console.log(result)
                     resolve(result)
                 });
             });
         })
     }
-    find(table,field='*',where='1'){
-        this.sql = 'SELECT ' + field + ' FROM ' + table + ' where ' + where;
+    find(table,select='*',where='1'){
+        this.sql = 'SELECT ' + select + ' FROM ' + table + ' where ' + where;
         //查
         //console.log('查询'+this.sql);
+        return this.excute()
+    }
+    joinGroup([table1,table2], select='*', count, on='1', groupBy, orderBy){
+        this.sql = `SELECT ${select}, count(${count}) as count
+                    FROM ${table1}
+                    LEFT JOIN ${table2}
+                    ON ${on}    
+                    GROUP BY ${groupBy}
+                    ORDER BY ${orderBy}`;
+
+        console.log(this.sql)
         return this.excute()
     }
     orderBy(){

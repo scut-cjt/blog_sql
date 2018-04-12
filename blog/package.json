@@ -10,6 +10,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "moment": "^2.22.0",
     "vue": "^2.5.2",
     "vue-axios": "^2.1.0",
     "vue-moment": "^3.2.0",

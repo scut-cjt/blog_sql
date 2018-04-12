@@ -2,8 +2,9 @@
   <div class="hello">
     <h3>写文章</h3>
     <input v-model="title" type="text" placeholder="输入标题">
-    <textarea v-model="content" name="content" id="content" cols="30" rows="10" placeholder="写点什么"></textarea>
     <br>
+    <textarea v-model="content" name="content" id="content" cols="30" rows="10" placeholder="写点什么"></textarea>
+    <br><br>
     <input type="button" value="发布" @click="submit">
   </div>
 </template>
@@ -47,7 +48,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
   textarea{
     margin-top: 20px;
     resize: none;
