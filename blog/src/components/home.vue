@@ -16,12 +16,16 @@
     <ul>
       <li v-for="item in list" @click="checkArticle(item.a_id)">
         <div class="item">
-          <div>
+          <div class="item-head">
             <p class="title">{{item.a_title}}</p>
-            <span class="date">{{item.a_date}}</span>
+            <span class="date">{{item.a_date}}</span><br>
           </div>
           <div>
-            <p class="author">{{item.u_name}}</p>
+            <p class="content">{{item.a_content | cutContent}}</p>
+          </div>
+          <div>
+            <p class="author">作者  {{item.u_name}}</p>
+            <span class="date">评论  {{item.comment_num || 0}}</span>
           </div>
         </div>
       </li>
@@ -43,6 +47,14 @@ export default {
     return {
       userInfo: {},
       list: []
+    }
+  },
+  filters:{
+    cutContent(val){
+      if(val.length >= 50){
+        return val.substr(0,50)+'...'
+      }
+      return val
     }
   },
   methods: {
@@ -82,15 +94,19 @@ function getArticleList() {
   }
 
   .title{
+    flex: 1;
     font-size: 16px;
+    display: inline-block;
   }
   .date{
-    float: right;
     color:#999;
     font-size:12px;
+    margin: 0 10px;
   }
   .author{
-    font-size:14px;
+    color: #999;
+    font-size: 12px;
+    display: inline-block;
   }
 
   ul{
@@ -102,5 +118,13 @@ function getArticleList() {
   .item{
     padding: 5px 0 ;
     border-bottom: 1px solid #ddd;
+  }
+  .content{
+    font-size: 15px;
+    color: #666;
+  }
+  .item-head{
+    display: flex;
+    align-items: center;
   }
 </style>

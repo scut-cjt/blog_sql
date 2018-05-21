@@ -25,7 +25,7 @@ exports.newArticle = function(req, res) {
         .then(insertId => {
             db.find('article', '*', `a_id = '${insertId}'`)
                 .then(rows => {
-                    console.log('文章查询:',rows)
+                    //console.log('文章查询:',rows)
                     let response = {
                         state: true,
                         text: "新建文章成功",
@@ -60,9 +60,10 @@ exports.getArticleList = function(req, res) {
        where = `a_id = '${insertId}'`;
     }
 
-    db.find('article','*',where)
+    db.unitQuery(['article','users'], '*', 'article.u_id = users.u_id', 'article.a_id')
+    //db.find('article','*',where)
         .then(rows => {
-            console.log(rows);
+            //console.log(rows);
             let response = {
                 state: true,
                 info:'查询成功',
@@ -90,7 +91,7 @@ exports.checkArticle = function(req, res) {
 
     db.find('article', '*', 'a_id =' + articleId)
         .then(rows => {
-            console.log(rows);
+            //console.log(rows);
             let response = {
                 state: true,
                 info:'查询成功',

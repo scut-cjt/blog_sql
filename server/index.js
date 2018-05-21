@@ -7,6 +7,7 @@ const checkToken = require('./api/token.js');
 //api
 const api_user = require('./api/user.js')
 const api_article = require('./api/article.js')
+const api_comment = require('./api/comment.js')
 
 // 创建 application/x-www-form-urlencoded 编码解析
 const urlencodedParser = bodyParser.urlencoded({extended: false})
@@ -50,7 +51,13 @@ app.all('/newArticle', urlencodedParser, checkToken, api_article.newArticle)
 app.all('/getArticleList', urlencodedParser, checkToken, api_article.getArticleList)
 app.all('/checkArticle', urlencodedParser, checkToken, api_article.checkArticle)
 
-app.all('/test',urlencodedParser, require('./api/test'))
+
+/**
+ * 评论功能
+ * jtchen 2018/4/12
+ */
+app.all('/submitComment', urlencodedParser, checkToken, api_comment.submitComment)
+app.all('/getComment', urlencodedParser, checkToken, api_comment.getComment)
 
 
 /**

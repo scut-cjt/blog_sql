@@ -28,15 +28,27 @@ class MDB {
                     if (err) {
                         reject(err)
                     }
+                    //console.log(result)
                     resolve(result)
                 });
             });
         })
     }
-    find(table,field='*',where='1'){
-        this.sql = 'SELECT ' + field + ' FROM ' + table + ' where ' + where;
+    find(table, select='*', where='1'){
+        this.sql = 'SELECT ' + select + ' FROM ' + table + ' where ' + where;
         //查
-        //console.log('查询'+this.sql);
+        console.log('查询'+this.sql);
+        return this.excute()
+    }
+    unitQuery([table1,table2], select='*', where='1', orderBy){
+
+        this.sql = `SELECT ${select}
+                    FROM ${table1}
+                    LEFT JOIN ${table2}
+                    ON ${where}    
+                    ORDER BY ${orderBy}`;
+
+        //console.log(this.sql)
         return this.excute()
     }
     orderBy(){
@@ -46,17 +58,18 @@ class MDB {
         
     }
     update(table,data,where){
-        var sql = '';
-        var params = [];
-        for(var item in data) {
-            sql = sql + item + " = \'" + data[item] + "\' ,";
-            
+        let sql = '';
+        let params = [];
+        console.log('参数',data)
+        for(let item in data) {
+            sql += `${item} = ${data[item]},`
         }
-        var len = sql.length-1;
+        let len = sql.length-1;
         sql = sql.substring(0,len);
 
         this.sql = 'UPDATE ' + table + ' SET ' + sql + ' WHERE '+ where;
 
+        console.log('update语句:',this.sql);
         return this.excute();
 
     }
@@ -75,6 +88,7 @@ class MDB {
         val = val.substring(0,len2);
 
         this.sql = 'INSERT INTO ' + table + '(' + sql + ') VALUES(' + val + ')';
+        console.log('插入:' + this.sql)
         return this.excute();
         
     }
