@@ -61,10 +61,11 @@ exports.register = function(req, res) {
     db.find('users', '*', `u_name = '${userName}'`)
         .then(rows => {
             console.log('查询结果:',rows);
-            if(rows.length == 0 || !rows){
-                let insert_sql = "INSERT INTO users(u_name,u_password) VALUES (?,?)";
-                let insert_params = [userName,passWord];
-                db.query(insert_sql,insert_params)
+            if(!rows.length){
+                db.insert('users',{
+                    'u_name': userName,
+                    'u_password': passWord
+                })
                     .then(rows => {
                         let response = {
                             state: 200,

@@ -24,6 +24,21 @@ exports.submitComment = function(req, res){
                 state: true,
                 info: '添加评论成功',
             })
+            return Promise.resolve(result)
+        })
+        .then( result => {
+            db.find('article', 'comment_num', `a_id = ${articleId}`)
+                .then( rows => {
+                    console.log(rows[0]);
+                    let count = rows[0].comment_num || 0
+
+                    console.log('查询article表中评论数:',count);
+
+                    db.update('article', { comment_num : Number(count)+1}, `a_id = ${articleId}`)
+                        .then(result => {
+                            console.log('article 表中 count 修改成功!')
+                        })
+                })
         })
         .catch(err => {
             throw err

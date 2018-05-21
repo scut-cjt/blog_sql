@@ -25,7 +25,7 @@
           </div>
           <div>
             <p class="author">作者  {{item.u_name}}</p>
-            <span class="date">评论  {{item.count}}</span>
+            <span class="date">评论  {{item.comment_num || 0}}</span>
           </div>
         </div>
       </li>
