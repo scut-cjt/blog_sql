@@ -3,8 +3,11 @@ import Router from 'vue-router'
 import customAjax from "../util/customAjax"
 import ls from '../util/ls'
 import noLoginPages from "./freeLogin.js"
+import { goBack } from "./routerTransition.js"
 
 Vue.use(Router)
+
+Router.prototype.goBack = goBack;
 
 const router = new Router({
   mode: 'history',
@@ -17,6 +20,11 @@ const router = new Router({
     {
       path: '/home',
       name: 'home',
+      component: resolve => require(['@/components/home'],resolve)
+    },
+    {
+      path: '/',
+      name: 'default',
       component: resolve => require(['@/components/home'],resolve)
     },
     {
@@ -52,6 +60,7 @@ function checkLogin(){
 
 
 router.beforeEach((to, from, next) => {
+  //若不需要登录 -> next()
   if(noLoginPages.indexOf(to.name) != -1){
     return next();
   }

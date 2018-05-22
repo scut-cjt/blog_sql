@@ -10,12 +10,12 @@ const moment = require('moment')
 exports.login = function(req, res) {
     let userName = req.body.userName;
     let passWord = req.body.passWord;
-    console.log(userName,passWord)
+    //console.log(userName,passWord)
 
     db.find('users','*',`u_name = '${userName}' and u_password = '${passWord}'`)
         .then(rows => {
-            console.log('查询结果:',rows);
-            if(rows.length == 0 || !rows){
+            //console.log('查询结果:',rows);
+            if(!rows){
                 return res.json({
                     state: false,
                     info: "登录失败,请检查用户名和密码",
@@ -27,7 +27,7 @@ exports.login = function(req, res) {
                     exp: expires
                 }, app.get('jwtTokenSecret'));
 
-                console.log('颁发的token:'+ token)
+                //console.log('颁发的token:'+ token)
 
                 //saveToken(rows[0].u_id,token)
 

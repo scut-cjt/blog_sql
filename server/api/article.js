@@ -16,7 +16,6 @@ exports.newArticle = function(req, res) {
         'a_title': title,
         'a_content': content,
         'a_date': date,
-        'u_name': userName,
         'u_id': userId
     })
         .then(res => {

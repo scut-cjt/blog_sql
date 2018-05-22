@@ -1,5 +1,6 @@
 <template>
-  <div class="hello">
+  <div class="hello" v-cloak>
+    <btn-back></btn-back>
     <h3>{{article.a_title}}</h3>
     <br>
     <div class="author">作者: {{article.u_name}}</div>
@@ -35,11 +36,15 @@
 <script>
   import moment from 'moment'
   import { mapGetters } from 'vuex'
+  import btnBack from "./common/btnBack"
 
 export default {
   name: 'articleDetail',
-  mounted(){
+  mounted(){ 
     getArticleDetail.call(this);
+  },
+  components: {
+    btnBack
   },
   computed: {
     ...mapGetters([

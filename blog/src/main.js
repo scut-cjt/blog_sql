@@ -7,7 +7,10 @@ import router from './router'
 import './host.js'
 
 import customAjax from './util/customAjax'
-Vue.prototype.$http = customAjax
+Vue.prototype.$http = customAjax;
+
+import base from './util/baseMethods'
+Vue.use(base)
 
 Vue.config.productionTip = false
 

@@ -7,6 +7,6 @@ import user_store from './user_store.js'
 
 export default new vuex.Store({
   modules: {
-    user: user_store
+    user: user_store,
   }
 })
